@@ -47,18 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment(0.8, 1),
-            colors: <Color>[
-              Color.fromRGBO(0, 0, 70, 1),
-              Color.fromRGBO(28, 181, 224, 1)
-            ],
-          ),
-        ),
         child: weatherProvider.isLoading
-            ? CircularProgressIndicator()
+            ? CircularProgressIndicator() 
             : weatherProvider.errorMessage != null
                 ? Text(weatherProvider.errorMessage!)
                 : WeatherDisplay(data: weatherProvider.weatherData!),
@@ -81,64 +71,64 @@ class WeatherDisplay extends StatelessWidget {
     final current = data['current'];
     final location = data['location'];
     
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            location['name'],
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 10),
-          Text(
-            '${current['temp_c']}°C',
-            style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.network(
-                'https:${current['condition']['icon']}',
-                width: 64,
-                height: 64,
-              ),
-              SizedBox(width: 10),
-              Text(
-                current['condition']['text'],
-                style: TextStyle(fontSize: 20),
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment(0.8, 1),
+            colors: <Color>[
+              Color.fromRGBO(0, 0, 70, 1),
+              Color.fromRGBO(28, 181, 224, 1)
             ],
           ),
-          SizedBox(height: 30),
-          Wrap(
-            spacing: 20,
-            runSpacing: 20,
+          ),
+        ),
+        title: Text(
+              location['name'],
+              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            ),
+        centerTitle: true,
+      ),
+      body: Container(
+        color: Colors.lightBlueAccent,
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
             children: [
-              _buildWeatherInfo('Humedad', '${current['humidity']}%'),
-              _buildWeatherInfo('Viento', '${current['wind_kph']} km/h'),
-              _buildWeatherInfo('Sensación', '${current['feelslike_c']}°C'),
-              _buildWeatherInfo('Presión', '${current['pressure_mb']} hPa'),
+              SizedBox(height: 10),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  '${current['temp_c']}°C',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(height: 10),
+              Column(
+                children: [
+                  Image.network(
+                    'https:${current['condition']['icon']}',
+                    width: 64,
+                    height: 64,
+                  ),
+                  SizedBox(width: 10),
+                  Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      Text(
+                        current['condition']['text'],
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ]
+                  ),
+                ],
+              ),
+              SizedBox(height: 30),
             ],
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildWeatherInfo(String label, String value) {
-    return Container(
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.blue[50],
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        children: [
-          Text(label, style: TextStyle(color: Colors.blue[800])),
-          Text(value, style: TextStyle(fontWeight: FontWeight.bold)),
-        ],
+        ),
       ),
     );
   }
