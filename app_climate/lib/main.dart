@@ -70,6 +70,7 @@ class WeatherDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final current = data['current'];
     final location = data['location'];
+    final forecast = data["forecast"];
     
     return Scaffold(
       appBar: AppBar(
@@ -124,6 +125,16 @@ class WeatherDisplay extends StatelessWidget {
                     ]
                   ),
                 ],
+              ),
+              Card(
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  color: Colors.blue,
+                  child: Text(
+                    forecast["forecastday"][0]["date"]
+                  ),
+                ),
               ),
               SizedBox(height: 30),
             ],

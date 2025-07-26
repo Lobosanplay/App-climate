@@ -33,7 +33,7 @@ class WeatherProvider extends ChangeNotifier{
     }
 
     final url = Uri.parse(
-      "https://api.weatherapi.com/v1/current.json?key=$apiKey &q=$location&aqi=yes"
+      "https://api.weatherapi.com/v1/forecast.json?key=$apiKey&q=$location&days=7&aqi=yes&alerts=yes"
     );
 
     try {
