@@ -147,14 +147,14 @@ class WeatherDisplay extends StatelessWidget {
     final currentHour = DateTime.now().hour;
     final hourlyForecast = forecastDay[0]['hour']
     .where((h) => DateTime.parse(h['time']).hour >= currentHour)
-    .take(5)
+    .take(6)
     .toList();
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
         Text(
-          '${forecastDay[0]["hour"][0]["time"]}',
+          'Hourly forecast',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 16),
