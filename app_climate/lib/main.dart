@@ -1,7 +1,7 @@
 import 'package:app_climate/providers/weatherapi_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import "package:intl/intl.dart";
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final weatherProvider = WeatherProvider();
@@ -66,11 +66,28 @@ class WeatherDisplay extends StatelessWidget {
     final forecast = data["forecast"]["forecastday"];
 
     return Scaffold(
-      body: _buildBody(current, forecast, location),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildLocationHeader(location),
+              SizedBox(height: 16),
+              _buildCurrentWeather(current, forecast),
+              Divider(height: 32, thickness: 1),
+              _buildHourlyForecast(forecast),
+              Divider(height: 32, thickness: 1),
+              _build7DayForecast(forecast),
+            ],
+          ),
+        ),
+      ),
     );
   }
+}
 
-  Widget _buildLocactionHeader(Map<String, dynamic> location) {
+  Widget _buildLocationHeader(Map<String, dynamic> location) {
     return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [ 
@@ -87,23 +104,6 @@ class WeatherDisplay extends StatelessWidget {
       );
   }
 
-  Widget _buildBody(Map<String, dynamic> current, List<dynamic> forecast, Map<String, dynamic> location) {
-    return Container(
-      color: Colors.lightBlueAccent,
-      child: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          children: [
-            _buildLocactionHeader(location),
-            _buildCurrentWeather(current, forecast),
-            SizedBox(height: 20),
-            _buildForecast(forecast.first)
-          ],
-        ),
-        ),
-    );
-  }
-
   Widget _buildCurrentWeather(Map<String, dynamic> current, List<dynamic> forecast,) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,39 +118,130 @@ class WeatherDisplay extends StatelessWidget {
           style: TextStyle(fontSize: 16),
         ),
         SizedBox(height: 10),
-        Row(
-          children: [
-            Image.network(
-              'https:${current['condition']['icon']}',
-              width: 64,
-              height: 64,
-            ),
-            SizedBox(height: 10),
-            Text(
-                current['condition']['text'],
-                style: TextStyle(fontSize: 20),
-            ),
-          ],
+        Text(
+          '${forecast[0]["day"]["condition"]["text"]}',
+          style: TextStyle(fontSize: 20),
         ),
+        Image.network(
+          'https:${current['condition']['icon']}',
+          width: 64,
+          height: 64,
+        ),
+        SizedBox(height: 10),
+        Text(
+            current['condition']['text'],
+            style: TextStyle(fontSize: 20),
+        ),
+        SizedBox(height: 8),
+        Text(
+          '${current['feelslike_c']}°',
+          style: TextStyle(fontSize: 16, color: Colors.grey),
+        ),
+
       ],
     );
   }
 
-  Widget _buildForecast(Map<String, dynamic> forecastDay) {
-    return Container(
-      width: 100,
-      height: 100,
-      color: Colors.transparent,
-      child: Column(
+  Widget _buildHourlyForecast(List<dynamic> forecastDay) {
+
+    final currentHour = DateTime.now().hour;
+    final hourlyForecast = forecastDay[0]['hour']
+    .where((h) => DateTime.parse(h['time']).hour >= currentHour)
+    .take(5)
+    .toList();
+
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(
-            'https:${forecastDay["day"]["condition"]["icon"]}',
-            width: 64,
-            height: 64,
+        Text(
+          '${forecastDay[0]["hour"][0]["time"]}',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 16),
+        SizedBox(
+          height: 100,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: hourlyForecast.length,
+            separatorBuilder: (context, index) => SizedBox(width: 16),
+            itemBuilder: (context, index) {
+              final hour = hourlyForecast[index];
+              final time  = DateTime.parse(hour['time']);
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${hour["temp_c"].round()}°C',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    index == 0 ? 'Now' : '${time.hour}:00',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  SizedBox(height: 4),
+                  Image.network(
+                      'https:${hour['condition']['icon']}',
+                      width: 32,
+                      height: 32,
+                  )
+                ],
+              );
+            },
           ),
-          Text(forecastDay["date"]),
-        ],
-      ),
+        ),
+      ],
     );
+  
   }
+  Widget _build7DayForecast(List<dynamic> forecastDay) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        '7-day forecast',
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+      SizedBox(height: 16),
+      Column(
+        children: forecastDay.map((day) {
+          final date = DateTime.parse(day['date']);
+          final formattedDate = DateFormat('EEE, MMM d').format(date);
+          final isToday = day == forecastDay.first;
+          
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(isToday ? 'Today' : formattedDate),
+                    SizedBox(width: 8),
+                    Image.network(
+                      'https:${day['day']['condition']['icon']}',
+                      width: 24,
+                      height: 24,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      '${day['day']['maxtemp_c'].round()}°',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(' / '),
+                    Text('${day['day']['mintemp_c'].round()}°'),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }).toList(),
+      ),
+    ],
+  );
 }
+
+
