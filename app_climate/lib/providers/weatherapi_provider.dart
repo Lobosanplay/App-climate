@@ -17,6 +17,7 @@ class WeatherProvider extends ChangeNotifier{
 
   Future<void> iniinitialize() async {
   await dotenv.load(fileName: ".env");
+  await fetchWeather();
   }
 
   Future<void> fetchWeather({String location = "Colombia"}) async {

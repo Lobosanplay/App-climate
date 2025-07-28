@@ -17,7 +17,6 @@ Future main() async {
 class climate extends StatelessWidget {
   const climate({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,21 +24,19 @@ class climate extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'App climate'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +49,6 @@ class _MyHomePageState extends State<MyHomePage> {
             : weatherProvider.errorMessage != null
                 ? Text(weatherProvider.errorMessage!)
                 : WeatherDisplay(data: weatherProvider.weatherData!),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => weatherProvider.fetchWeather(),
-        child: Icon(Icons.refresh),
       ),
     );
   }
@@ -70,76 +63,93 @@ class WeatherDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final current = data['current'];
     final location = data['location'];
-    final forecast = data["forecast"];
-    
+    final forecast = data["forecast"]["forecastday"];
+
     return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment(0.8, 1),
-            colors: <Color>[
-              Color.fromRGBO(0, 0, 70, 1),
-              Color.fromRGBO(28, 181, 224, 1)
+      body: _buildBody(current, forecast, location),
+    );
+  }
+
+  Widget _buildLocactionHeader(Map<String, dynamic> location) {
+    return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [ 
+              Text(
+                location['name'],
+                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Now',
+              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+              ),
             ],
-          ),
-          ),
+      );
+  }
+
+  Widget _buildBody(Map<String, dynamic> current, List<dynamic> forecast, Map<String, dynamic> location) {
+    return Container(
+      color: Colors.lightBlueAccent,
+      child: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: [
+            _buildLocactionHeader(location),
+            _buildCurrentWeather(current, forecast),
+            SizedBox(height: 20),
+            _buildForecast(forecast.first)
+          ],
         ),
-        title: Text(
-              location['name'],
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+        ),
+    );
+  }
+
+  Widget _buildCurrentWeather(Map<String, dynamic> current, List<dynamic> forecast,) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '${current['temp_c']}°C',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 8),
+        Text(
+          'High ${forecast[0]["day"]["maxtemp_c"]}° / Low ${forecast[0]["day"]["mintemp_c"]}°',
+          style: TextStyle(fontSize: 16),
+        ),
+        SizedBox(height: 10),
+        Row(
+          children: [
+            Image.network(
+              'https:${current['condition']['icon']}',
+              width: 64,
+              height: 64,
             ),
-        centerTitle: true,
-      ),
-      body: Container(
-        color: Colors.lightBlueAccent,
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            children: [
-              SizedBox(height: 10),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  '${current['temp_c']}°C',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(height: 10),
-              Column(
-                children: [
-                  Image.network(
-                    'https:${current['condition']['icon']}',
-                    width: 64,
-                    height: 64,
-                  ),
-                  SizedBox(width: 10),
-                  Stack(
-                    alignment: Alignment.topRight,
-                    children: [
-                      Text(
-                        current['condition']['text'],
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ]
-                  ),
-                ],
-              ),
-              Card(
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.blue,
-                  child: Text(
-                    forecast["forecastday"][0]["date"]
-                  ),
-                ),
-              ),
-              SizedBox(height: 30),
-            ],
-          ),
+            SizedBox(height: 10),
+            Text(
+                current['condition']['text'],
+                style: TextStyle(fontSize: 20),
+            ),
+          ],
         ),
+      ],
+    );
+  }
+
+  Widget _buildForecast(Map<String, dynamic> forecastDay) {
+    return Container(
+      width: 100,
+      height: 100,
+      color: Colors.transparent,
+      child: Column(
+        children: [
+          Image.network(
+            'https:${forecastDay["day"]["condition"]["icon"]}',
+            width: 64,
+            height: 64,
+          ),
+          Text(forecastDay["date"]),
+        ],
       ),
     );
   }
