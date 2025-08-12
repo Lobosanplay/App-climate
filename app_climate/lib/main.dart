@@ -66,20 +66,33 @@ class WeatherDisplay extends StatelessWidget {
     final forecast = data["forecast"]["forecastday"];
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildLocationHeader(location),
-              SizedBox(height: 16),
-              _buildCurrentWeather(current, forecast),
-              Divider(height: 32, thickness: 1),
-              _buildHourlyForecast(forecast),
-              Divider(height: 32, thickness: 1),
-              _build7DayForecast(forecast),
-            ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.blue, Colors.purple],
+          )
+        ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildLocationHeader(location),
+                SizedBox(height: 16),
+                _buildCurrentWeather(current, forecast),
+                Divider(height: 32, thickness: 1),
+                Text(
+                  'Hourly forecast',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                _buildHourlyForecast(forecast),
+                Divider(height: 32, thickness: 1),
+                _build7DayForecast(forecast),
+              ],
+            ),
           ),
         ),
       ),
@@ -150,47 +163,51 @@ class WeatherDisplay extends StatelessWidget {
     .take(6)
     .toList();
 
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-        Text(
-          'Hourly forecast',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+            color: Color.fromRGBO(3, 59, 75, 1),
+            borderRadius: BorderRadius.circular(10)
         ),
-        SizedBox(height: 16),
-        SizedBox(
-          height: 100,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: hourlyForecast.length,
-            separatorBuilder: (context, index) => SizedBox(width: 16),
-            itemBuilder: (context, index) {
-              final hour = hourlyForecast[index];
-              final time  = DateTime.parse(hour['time']);
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '${hour["temp_c"].round()}°C',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    index == 0 ? 'Now' : '${time.hour}:00',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  SizedBox(height: 4),
-                  Image.network(
-                      'https:${hour['condition']['icon']}',
-                      width: 32,
-                      height: 32,
-                  )
-                ],
-              );
-            },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          SizedBox(height: 4),
+          SizedBox(
+            height: 100,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: hourlyForecast.length,
+              separatorBuilder: (context, index) => SizedBox(width: 16),
+              itemBuilder: (context, index) {
+                final hour = hourlyForecast[index];
+                final time  = DateTime.parse(hour['time']);
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${hour["temp_c"].round()}°C',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      index == 0 ? 'Now' : '${time.hour}:00',
+                      style: TextStyle(fontSize: 14, color: Colors.white),
+                    ),
+                    SizedBox(height: 4),
+                    Image.network(
+                        'https:${hour['condition']['icon']}',
+                        width: 32,
+                        height: 32,
+                    )
+                  ],
+                );
+              },
+            ),
           ),
+        ],
         ),
-      ],
+      ),
     );
   
   }
