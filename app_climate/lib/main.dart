@@ -71,7 +71,7 @@ class WeatherDisplay extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.blue, Colors.purple],
+            colors: [Color.fromRGBO(15, 32, 39, 1), Color.fromRGBO(32, 58, 67, 1), Color.fromRGBO(44, 83, 100, 1)],
           )
         ),
         child: SingleChildScrollView(
@@ -104,9 +104,11 @@ class WeatherDisplay extends StatelessWidget {
     return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [ 
-              Text(
-                location['name'],
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              Center(
+                child: Text(
+                  location['name'],
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.white),
+                ),
               ),
               SizedBox(height: 8),
               Text(
@@ -166,7 +168,7 @@ class WeatherDisplay extends StatelessWidget {
     return Center(
       child: Container(
         decoration: BoxDecoration(
-            color: Color.fromRGBO(3, 59, 75, 1),
+            color: Color.fromRGBO(3, 59, 75, 0.7),
             borderRadius: BorderRadius.circular(10)
         ),
         child: Column(
