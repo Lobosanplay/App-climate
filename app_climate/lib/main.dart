@@ -90,7 +90,11 @@ class WeatherDisplay extends StatelessWidget {
                 ),
                 _buildHourlyForecast(forecast),
                 Divider(height: 32, thickness: 1),
-                _build7DayForecast(forecast),
+                Text(
+                  '3-day forecast',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                _build3DayForecast(forecast),
               ],
             ),
           ),
@@ -165,8 +169,7 @@ class WeatherDisplay extends StatelessWidget {
     .take(6)
     .toList();
 
-    return Center(
-      child: Container(
+    return Container(
         decoration: BoxDecoration(
             color: Color.fromRGBO(3, 59, 75, 0.7),
             borderRadius: BorderRadius.circular(10)
@@ -174,13 +177,12 @@ class WeatherDisplay extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          SizedBox(height: 4),
           SizedBox(
             height: 100,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: hourlyForecast.length,
-              separatorBuilder: (context, index) => SizedBox(width: 16),
+              separatorBuilder: (context, index) => SizedBox(width: 20),
               itemBuilder: (context, index) {
                 final hour = hourlyForecast[index];
                 final time  = DateTime.parse(hour['time']);
@@ -209,58 +211,70 @@ class WeatherDisplay extends StatelessWidget {
           ),
         ],
         ),
-      ),
     );
   
   }
-  Widget _build7DayForecast(List<dynamic> forecastDay) {
+  Widget _build3DayForecast(List<dynamic> forecastDay) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text(
-        '7-day forecast',
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-      SizedBox(height: 16),
       Column(
         children: forecastDay.map((day) {
           final date = DateTime.parse(day['date']);
           final formattedDate = DateFormat('EEE, MMM d').format(date);
           final isToday = day == forecastDay.first;
           
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text(isToday ? 'Today' : formattedDate),
-                    SizedBox(width: 8),
-                    Image.network(
-                      'https:${day['day']['condition']['icon']}',
-                      width: 24,
-                      height: 24,
-                    ),
-                  ],
+          return Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(3, 59, 75, 0.7),
+                  borderRadius: BorderRadius.circular(10)
                 ),
-                Row(
-                  children: [
-                    Text(
-                      '${day['day']['maxtemp_c'].round()}°',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(' / '),
-                    Text('${day['day']['mintemp_c'].round()}°'),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0) ,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            isToday ? 'Today' : formattedDate,
+                            style: TextStyle(color: Colors.white)
+                            ),
+                          SizedBox(width: 8),
+                          Image.network(
+                            'https:${day['day']['condition']['icon']}',
+                            width: 24,
+                            height: 24,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            '${day['day']['maxtemp_c'].round()}°',
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                          Text(
+                            ' / ',
+                            style: TextStyle(color: Colors.white)
+                            ),
+                          Text(
+                            '${day['day']['mintemp_c'].round()}°',
+                            style: TextStyle(color: Colors.white),
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+              SizedBox(height: 8),
+            ],
           );
         }).toList(),
       ),
     ],
   );
 }
-
-
