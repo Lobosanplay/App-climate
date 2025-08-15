@@ -81,7 +81,6 @@ class WeatherDisplay extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildLocationHeader(location),
-                SizedBox(height: 16),
                 _buildCurrentWeather(current, forecast),
                 Divider(height: 32, thickness: 1),
                 Text(
@@ -125,39 +124,50 @@ class WeatherDisplay extends StatelessWidget {
 
   Widget _buildCurrentWeather(Map<String, dynamic> current, List<dynamic> forecast,) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '${current['temp_c']}°C',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        Stack(
+          children: [ 
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: Text(
+                '${current['temp_c'].round()}°',
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+            ),
+            Positioned(
+              left: 50,
+              child: Image.network(
+                'https:${current['condition']['icon']}',  
+                width: 50,
+                height: 50,
+              ),
+            ),
+            Positioned(
+              right: 0,
+              child: Text(
+                '${current['condition']['text']}',
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
+            ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: Text(
+                '${current['feelslike_c']}°',
+                style: TextStyle(fontSize: 16, color: Colors.grey),
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              child: Text(
+                'High ${forecast[0]["day"]["maxtemp_c"]}° / Low ${forecast[0]["day"]["mintemp_c"]}°',
+                style: TextStyle(fontSize: 10, color: Colors.white),
+              ),
+            ),
+          ],
         ),
-        SizedBox(height: 8),
-        Text(
-          'High ${forecast[0]["day"]["maxtemp_c"]}° / Low ${forecast[0]["day"]["mintemp_c"]}°',
-          style: TextStyle(fontSize: 16),
-        ),
-        SizedBox(height: 10),
-        Text(
-          '${forecast[0]["day"]["condition"]["text"]}',
-          style: TextStyle(fontSize: 20),
-        ),
-        Image.network(
-          'https:${current['condition']['icon']}',
-          width: 64,
-          height: 64,
-        ),
-        SizedBox(height: 10),
-        Text(
-            current['condition']['text'],
-            style: TextStyle(fontSize: 20),
-        ),
-        SizedBox(height: 8),
-        Text(
-          '${current['feelslike_c']}°',
-          style: TextStyle(fontSize: 16, color: Colors.grey),
-        ),
-
-      ],
+      ]
     );
   }
 
