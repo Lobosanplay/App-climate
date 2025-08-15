@@ -65,8 +65,10 @@ class WeatherDisplay extends StatelessWidget {
     final location = data['location'];
     final forecast = data["forecast"]["forecastday"];
 
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
+        height: screenHeight,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -85,13 +87,13 @@ class WeatherDisplay extends StatelessWidget {
                 Divider(height: 32, thickness: 1),
                 Text(
                   'Hourly forecast',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 _buildHourlyForecast(forecast),
                 Divider(height: 32, thickness: 1),
                 Text(
                   '3-day forecast',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 _build3DayForecast(forecast),
               ],
@@ -154,7 +156,7 @@ class WeatherDisplay extends StatelessWidget {
               right: 0,
               bottom: 0,
               child: Text(
-                '${current['feelslike_c']}°',
+                'Feels like ${current['feelslike_c']}°',
                 style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
             ),
