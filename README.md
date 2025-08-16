@@ -15,7 +15,7 @@ Android
 
 ## Estructura del proyecto:
 lib/providers/weatherapi_provider_dart:
-En esta direcion esta el llamado a la api de [**WeatherAPI**]{[text](https://www.weatherapi.com/api-explorer.aspx)}.
+En esta direcion esta el llamado a la api de [**WeatherAPI**](https://www.weatherapi.com/api-explorer.aspx).
 el cual recibe un parametro de **location** el cual servira para modificar el lugar del clima visualizado.
 
 lib/main.dart:
