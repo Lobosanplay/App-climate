@@ -4,8 +4,6 @@ Una aplicación meteorológica desarrollada con Flutter que muestra condiciones 
 
 ## 📱 Plataformas compatibles
 - Android
-- iOS (compatible, pero no probado exhaustivamente)
-- Web (compatible, pero no optimizado)
 
 ## 🛠️ Configuración
 
@@ -16,9 +14,9 @@ Una aplicación meteorológica desarrollada con Flutter que muestra condiciones 
 
 ### Instalación
 1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/tu-usuario/app-climate.git
-   ```
+```bash
+git clone https://github.com/tu-usuario/app-climate.git
+```
 
 2. Navegar al directorio del proyecto:
 ```bash
