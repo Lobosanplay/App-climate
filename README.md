@@ -20,5 +20,5 @@ el cual recibe un parametro de **location** el cual servira para modificar el lu
 
 lib/main.dart:
 este es la visualizacion de la app en donde se encuentra todos los apartados de la app.
-
+## Imagen del proyecto
 ![AppImage](public/image-1.png)
