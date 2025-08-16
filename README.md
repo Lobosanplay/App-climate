@@ -72,7 +72,7 @@ Parámetro configurable: La ubicación puede modificarse cambiando el parámetro
 
 ## 📸 Capturas de pantalla
 Vista principal
-![AppClimate](public\image-1.png)
+![AppClimate](public/image-1.png)
 
 ## 🚀 Características
 - Muestra temperatura actual y sensación térmica
