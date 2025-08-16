@@ -40,6 +40,7 @@ flutter build apk --release
 ```
 
 ## 🏗️ Estructura del proyecto
+```
 lib/
 ├── main.dart                # Punto de entrada
 ├── app/                     # Configuración inicial
@@ -57,7 +58,7 @@ lib/
         │       └── weather_display.dart
         └── providers/       # Lógica de estado
             └── weather_provider.dart
-
+```
 ## 🌐 API Utilizada
 La aplicación consume datos de [WeatherAPI.com](https://www.weatherapi.com), proporcionando:
 
