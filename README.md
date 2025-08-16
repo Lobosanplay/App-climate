@@ -7,9 +7,9 @@ Android
 ## Configuración
 
 ### Instalación:
-- Clonar el repositorio: ```bash git clone <URL_DEL_REPOSITORIO>```
-- Navegar al directorio del proyecto:```bash cd <nombre_del_proyecto>```
-- Instalar dependencias: flutter ```bash pub get```
+- Clonar el repositorio: ```git clone <URL_DEL_REPOSITORIO>```
+- Navegar al directorio del proyecto:```cd <nombre_del_proyecto>```
+- Instalar dependencias: flutter ```fultter pub get```
 ### Ejecución:
 - Ejecutar la aplicación en un dispositivo o emulador: ```flutter run```
 
