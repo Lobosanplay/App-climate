@@ -84,18 +84,14 @@ Vista principal
 
 - Diseño adaptable
 
-- Gradientes dinámicos según condiciones climáticas
-
 ## 📌 Próximas mejoras
 - Búsqueda por ciudad
 
+- Gradientes dinámicos según condiciones climáticas
+
 - Soporte para múltiples ubicaciones
 
-- Modo oscuro/claro
-
 - Notificaciones de clima severo
-
-- Internacionalización (i18n)
 
 ## 📄 Licencia
 Este proyecto está bajo licencia MIT. Ver [LICENSE](LICENSE) para más detalles.
