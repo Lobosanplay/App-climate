@@ -3,6 +3,7 @@ import 'package:app_climate/features/weather/presentation/widgets/location_heade
 import 'package:app_climate/features/weather/presentation/widgets/current_weather.dart';
 import 'package:app_climate/features/weather/presentation/widgets/hourly_forecast.dart';
 import 'package:app_climate/features/weather/presentation/widgets/three_day_forecast.dart';
+import 'package:app_climate/features/weather/presentation/widgets/search_bar.dart';
 
 class WeatherDisplay extends StatelessWidget {
   final Map<String, dynamic> data;
@@ -32,6 +33,7 @@ class WeatherDisplay extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SearchBarAppState(),
                 LocationHeader(location: location),
                 CurrentWeather(current: current, forecast: forecast),
                 Divider(height: 32, thickness: 1),
