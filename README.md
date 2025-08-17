@@ -4,8 +4,6 @@ Una aplicación meteorológica desarrollada con Flutter que muestra condiciones 
 
 ## 📱 Plataformas compatibles
 - Android
-- iOS (compatible, pero no probado exhaustivamente)
-- Web (compatible, pero no optimizado)
 
 ## 🛠️ Configuración
 
@@ -16,9 +14,9 @@ Una aplicación meteorológica desarrollada con Flutter que muestra condiciones 
 
 ### Instalación
 1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/tu-usuario/app-climate.git
-   ```
+```bash
+git clone https://github.com/tu-usuario/app-climate.git
+```
 
 2. Navegar al directorio del proyecto:
 ```bash
@@ -42,6 +40,7 @@ flutter build apk --release
 ```
 
 ## 🏗️ Estructura del proyecto
+```
 lib/
 ├── main.dart                # Punto de entrada
 ├── app/                     # Configuración inicial
@@ -59,7 +58,7 @@ lib/
         │       └── weather_display.dart
         └── providers/       # Lógica de estado
             └── weather_provider.dart
-
+```
 ## 🌐 API Utilizada
 La aplicación consume datos de [WeatherAPI.com](https://www.weatherapi.com), proporcionando:
 
@@ -73,7 +72,8 @@ Parámetro configurable: La ubicación puede modificarse cambiando el parámetro
 
 ## 📸 Capturas de pantalla
 Vista principal
-![AppClimate](public\image-1.png)
+
+![AppClimate](public/image-1.png)
 
 ## 🚀 Características
 - Muestra temperatura actual y sensación térmica
@@ -84,18 +84,14 @@ Vista principal
 
 - Diseño adaptable
 
-- Gradientes dinámicos según condiciones climáticas
-
 ## 📌 Próximas mejoras
 - Búsqueda por ciudad
 
+- Gradientes dinámicos según condiciones climáticas
+
 - Soporte para múltiples ubicaciones
 
-- Modo oscuro/claro
-
 - Notificaciones de clima severo
-
-- Internacionalización (i18n)
 
 ## 📄 Licencia
 Este proyecto está bajo licencia MIT. Ver [LICENSE](LICENSE) para más detalles.
