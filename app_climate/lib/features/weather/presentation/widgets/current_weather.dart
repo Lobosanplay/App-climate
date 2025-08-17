@@ -21,7 +21,7 @@ class CurrentWeather extends StatelessWidget {
               ),
             ),
             Positioned(
-              left: 50,
+              left: 40,
               child: Image.network(
                 'https:${current['condition']['icon']}',  
                 width: 50,
@@ -30,9 +30,13 @@ class CurrentWeather extends StatelessWidget {
             ),
             Positioned(
               right: 0,
-              child: Text(
-                '${current['condition']['text']}',
-                style: TextStyle(fontSize: 20, color: Colors.white),
+              bottom: 18,
+              child: SizedBox(
+                child: Text(
+                  '${current['condition']['text']}',
+                  softWrap: true,
+                  style: TextStyle(fontSize: 15, color: Colors.white, ),
+                ),
               ),
             ),
             Positioned(
@@ -40,14 +44,15 @@ class CurrentWeather extends StatelessWidget {
               bottom: 0,
               child: Text(
                 'Feels like ${current['feelslike_c']}°',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+                style: TextStyle(fontSize: 13, color: Colors.grey),
               ),
             ),
             Positioned(
+              left: 0,
               bottom: 0,
               child: Text(
                 'High ${forecast[0]["day"]["maxtemp_c"]}° / Low ${forecast[0]["day"]["mintemp_c"]}°',
-                style: TextStyle(fontSize: 10, color: Colors.white),
+                style: TextStyle(fontSize: 10, color: Colors.grey),
               ),
             ),
           ],
