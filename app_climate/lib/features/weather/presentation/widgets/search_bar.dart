@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
+class SearchBarApp extends StatefulWidget {
+  const SearchBarApp({super.key});
 
+  @override 
+  State<SearchBarApp> createState() => _SearchBarAppState();
+}
 
-class SearchBarAppState extends StatelessWidget {
-  const SearchBarAppState({super.key});
+class _SearchBarAppState extends State<SearchBarApp> {
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +27,6 @@ class SearchBarAppState extends StatelessWidget {
                   controller.openView();
                 },
                 leading: const Icon(Icons.search),
-                trailing: <Widget>[
-                  Tooltip(
-                    message: 'Change brightness mode',
-                    child: IconButton(
-                      onPressed: () {
-                        
-                      },
-                      icon: const Icon(Icons.wb_sunny_outlined),
-                      selectedIcon: const Icon(Icons.brightness_2_outlined),
-                    ),
-                  ),
-                ],
               );
             },
             suggestionsBuilder: (BuildContext context, SearchController controller) {
@@ -43,12 +35,14 @@ class SearchBarAppState extends StatelessWidget {
                 return ListTile(
                   title: Text(item),
                   onTap: () {
-                    
-                  },
+                    setState(() {
+                      controller.closeView(item);
+                    });
+                  }
                 );
               });
-            },
-          ),
+            }
+          )
     );
   }
 }

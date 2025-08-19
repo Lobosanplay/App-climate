@@ -33,7 +33,7 @@ class WeatherDisplay extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SearchBarAppState(),
+                SearchBarApp(),
                 LocationHeader(location: location),
                 CurrentWeather(current: current, forecast: forecast),
                 Divider(height: 32, thickness: 1),

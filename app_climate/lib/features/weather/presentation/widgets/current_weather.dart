@@ -21,7 +21,7 @@ class CurrentWeather extends StatelessWidget {
               ),
             ),
             Positioned(
-              left: 40,
+              left: 45,
               child: Image.network(
                 'https:${current['condition']['icon']}',  
                 width: 50,
