@@ -7,7 +7,7 @@ import 'package:app_climate/features/weather/presentation/widgets/search_bar.dar
 
 class WeatherDisplay extends StatelessWidget {
   final Map<String, dynamic> data;
-  
+
   const WeatherDisplay({super.key, required this.data});
 
   @override
@@ -33,16 +33,15 @@ class WeatherDisplay extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SearchBarApp(),
                 LocationHeader(location: location),
                 CurrentWeather(current: current, forecast: forecast),
-                Divider(height: 32, thickness: 1),
+                const Divider(height: 32, thickness: 1),
                 Text(
                   'Hourly forecast',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 HourlyForecast(forecastDay: forecast),
-                Divider(height: 32, thickness: 1),
+                const Divider(height: 32, thickness: 1),
                 Text(
                   '3-day forecast',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),

@@ -55,8 +55,8 @@ class WeatherProvider extends ChangeNotifier {
 
   // Método para cambiar ubicación desde fuera
   void changeLocation(String newLocation) {
-    if (newLocation.isNotEmpty) {
-      fetchWeather(location: newLocation);
-    }
+  if (newLocation.isNotEmpty && newLocation != _currentLocation) {
+    fetchWeather(location: newLocation);
+  }
   }
 }
