@@ -1,26 +1,28 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart' ;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class WeatherProvider extends ChangeNotifier{
+class WeatherProvider extends ChangeNotifier {
   bool _isLoading = false;
   Map<String, dynamic>? _weatherData = {};
   String? _errorMessage;
+  String _currentLocation = "Bogota"; // Ubicación actual
 
   bool get isLoading => _isLoading;
   Map<String, dynamic>? get weatherData => _weatherData;
   String? get errorMessage => _errorMessage;
-
+  String get currentLocation => _currentLocation;
 
   Future<void> iniinitialize() async {
-  await dotenv.load(fileName: ".env");
-  await fetchWeather();
+    await dotenv.load(fileName: ".env");
+    await fetchWeather();
   }
 
-  Future<void> fetchWeather({String location = "Colombia"}) async {
+  Future<void> fetchWeather({String location = "Bogota"}) async {
     _isLoading = true;
     _errorMessage = null;
+    _currentLocation = location; // Actualizar la ubicación actual
     notifyListeners();
 
     final apiKey = dotenv.env["SECRET_KEY"] ?? "";
@@ -39,7 +41,7 @@ class WeatherProvider extends ChangeNotifier{
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-            _weatherData  = jsonDecode(response.body);
+        _weatherData = jsonDecode(response.body);
       } else {
         _errorMessage = "Error: ${response.statusCode} - ${response.reasonPhrase}";
       }
@@ -48,6 +50,13 @@ class WeatherProvider extends ChangeNotifier{
     } finally {
       _isLoading = false;
       notifyListeners();
+    }
+  }
+
+  // Método para cambiar ubicación desde fuera
+  void changeLocation(String newLocation) {
+    if (newLocation.isNotEmpty) {
+      fetchWeather(location: newLocation);
     }
   }
 }
